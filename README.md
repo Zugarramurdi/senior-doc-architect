@@ -90,3 +90,7 @@ Si quieres mejorar las plantillas de documentación o añadir soporte para un st
 ---
 
 **Desarrollado para impulsar la cultura de ingeniería.** 🚀
+
+---
+
+Edited by GLaDOS. 🦾

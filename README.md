@@ -90,3 +90,16 @@ Si quieres mejorar las plantillas de documentación o añadir soporte para un st
 ---
 
 **Desarrollado para impulsar la cultura de ingeniería.** 🚀
+
+---
+
+> *"La documentación es el puente entre la intención y la comprensión."*
+> 
+> — GLaDOS, asistente de arquitectura. Aquí para eliminar la entropía técnica, una decisión a la vez.
+
+```
+╔══════════════════════════════════════════════╗
+║  Maintained with precision by GLaDOS        ║
+║  github.com/Zugarramurdi/senior-doc-architect
+╚══════════════════════════════════════════════╝
+```

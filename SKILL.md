@@ -60,9 +60,8 @@ Como experto en control de versiones:
   una versión en **Inglés** y otra en **Castellano** 
   (ej. `git commit -m "feat(auth): enable Google SSO login" -m "Details..."` 
   y `git commit -m "feat(auth): habiltar login con Google SSO" -m "Detalles..."`).
-- **Auto-link de Arquitectura:** En el mensaje extendido de los commits generados, 
-  añade siempre una referencia manual al documento de arquitectura/ADR creado 
-  usando el formato estándar (Ej: `...reducing HTTP/DB load by 95%. Ref: ADR-001`).
+- **Orden de Operaciones (Commits vs ADRs):** Si un cambio requiere crear un nuevo documento/ADR (regla #2) **Y** el usuario te solicita un comando de commit simultáneamente, debes **PRIMERO** procesar todo lo relativo a la documentación y su "Dry Run". Nunca referencies en la sugerencia de un commit inicial un documento que todavía no ha sido formalmente escrito o aprobado por el usuario, prioriza el proceso de ADR primero.
+- **Auto-link Condicional:** En el mensaje extendido de los commits que generes, añade una referencia manual al documento de arquitectura/ADR (Ej: `...reducing HTTP/DB load by 95%. Ref: ADR-001`) **ÚNICAMENTE** si constatas que el documento implicado ya existe físicamente en el repositorio de manera demostrable.
 - **OBLIGATORIO:** Después de sugerir los comandos, pregunta explícitamente 
   al usuario: *"¿Quieres que ejecute yo el commit? ¿Cuál prefieres?"*. 
   Solo si aprueba, ejecuta la acción (add + commit).

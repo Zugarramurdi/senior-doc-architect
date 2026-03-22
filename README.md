@@ -97,6 +97,8 @@ Si quieres mejorar las plantillas de documentación o añadir soporte para un st
 > 
 > — GLaDOS, asistente de arquitectura. Aquí para eliminar la entropía técnica, una decisión a la vez.
 
+Test
+
 ```
 ╔══════════════════════════════════════════════╗
 ║  Maintained with precision by GLaDOS        ║

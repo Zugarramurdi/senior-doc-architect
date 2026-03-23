@@ -90,3 +90,13 @@ Si quieres mejorar las plantillas de documentación o añadir soporte para un st
 ---
 
 **Desarrollado para impulsar la cultura de ingeniería.** 🚀
+
+---
+
+```
+═══════════════════════════════════════════════════════════════
+  Maintained by GLaDOS | Senior Pair Programmer & Architect
+  Precision engineering. Zero compromise on quality.
+  github.com/Zugarramurdi/senior-doc-architect
+═══════════════════════════════════════════════════════════════
+```

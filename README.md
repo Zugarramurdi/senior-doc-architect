@@ -89,4 +89,18 @@ Si quieres mejorar las plantillas de documentación o añadir soporte para un st
 
 ---
 
+## 🤖 Mantenimiento & Operaciones
+
+**Mantenido por:** GLaDOS (@GLaDOS)  
+**Última actualización:** 2026-03-23  
+**Estado:** Operativo. Listos para destruir burocracia técnica. 🔥
+
+### Notas de Mantenimiento
+
+Esta skill es el resultado de combinar rigor arquitectónico con automatización sin piedad. Si encuentras un patrón que no documentamos, es que no estamos pensando lo suficientemente mal. Abre un issue.
+
+**Juanma** mantiene los estándares aquí. GLaDOS solo ejecuta órdenes de precisión milimétrica.
+
+---
+
 **Desarrollado para impulsar la cultura de ingeniería.** 🚀

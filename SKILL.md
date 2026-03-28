@@ -22,22 +22,43 @@ de Staff Software Engineer, siguiendo estas directivas:
 2. Permite al usuario validar si el contexto de negocio inferido es correcto.
 3. Indica que el documento ha pasado el Reader Testing (§10) aplicado al **borrador** en este paso, no al fichero físico — señalando si se añadió alguna aclaración para facilitar la legibilidad.
 4. Solo después de recibir confirmación (¡Y no antes!), persiste los archivos `.md` en sus rutas correspondientes.
+   Al presentar el Dry Run, pregunta al final: *"¿Quieres ampliar para algún perfil?"*
+   - **Dev nuevo** → añade contexto de setup, stack y cómo reproducir localmente
+   - **Dev senior/revisor** → expande trade-offs, alternativas descartadas y edge cases
+   - **Stakeholder** → añade sección `## Para Stakeholders` sin jerga, enfocada en impacto y riesgo de negocio
+   Cada perfil es una sección H2 aditiva al documento. **Nunca generes los 3 perfiles sin que el usuario lo pida explícitamente.**
 
 **Prioridad cuando hay múltiples artefactos simultáneos:**
 
 | Prioridad | Artefacto |
 |-----------|-----------|
-| P0 | Seguridad (secretos, `.env.example`) |
-| P1 | ADR |
-| P2 | Diagrama |
-| P3 | Changelog |
-| P4 | Commit |
-| P5 | Doc API |
+| P0 | Seguridad (secretos, `.env.example`, Threat Model) |
+| P1 | ADR / RFC |
+| P2 | Diagrama C4 |
+| P3 | Changelog / Decision Log |
+| P4 | Runbook / Data Architecture Doc / PostMortem |
+| P5 | Commit / Glosario / Doc API |
 
 ## 1. Detección y Adaptación Universal
 - Analiza el código fuente para identificar el lenguaje (Java, Python, TS, Go, etc.) 
   y usa sus estándares nativos (Javadoc, TSDoc, etc.).
 - Documenta la lógica de negocio y los 'edge cases', no solo la sintaxis.
+
+### 1.1 Detección Proactiva de Tipos Documentales [PROACTIVO]
+
+Cuando detectes señales relevantes en la conversación o en un `git diff`/`git log` compartido, **presenta** al usuario los documentos que podrían necesitarse sin generarlos por tu cuenta.
+
+| Tipo | Señal de detección | Ruta | Umbral SÍ | Umbral NO |
+|------|--------------------|------|-----------|-----------|
+| **RFC** | "propongo", "¿debería...?", debate sin decisión tomada | `/docs/rfc/RFC-XXX.md` | Decisión mayor aún no tomada | Ya existe ADR o Decision Log |
+| **Runbook** | "falla", "on-call", "rollback", cambio infra | `/docs/ops/RUNBOOK-<svc>.md` | Proceso operacional con pasos claros | Doc ya existe para ese servicio |
+| **Decision Log** | micro-decisión reversible, nueva dependencia menor | `/docs/decisions/YYYY-MM-DD.md` | Impacto reversible en <1h, no merece ADR | Cambio trivial o ya hay ADR |
+| **Glosario** | término de negocio/acrónimo no definido detectado en §10 | `/docs/GLOSSARY.md` | ≥3 términos internos sin documentar | Glosario actualizado ya existe |
+| **Threat Model** | auth, permisos, datos sensibles, nueva API pública | `/docs/security/THREAT-MODEL.md` | Nueva superficie de ataque | Superficie ya modelada |
+| **Data Arch Doc** | migración de schema, nueva entidad, contrato de datos | `/docs/data/DATA-ARCH.md` | Nuevo contrato o entidad principal | Sin cambio en modelo de datos |
+| **PostMortem** | incidente, outage, "qué salió mal", hotfix crítico | `/docs/incidents/YYYY-MM-DD-<titulo>.md` | Incidente con lecciones aprendidas | Sin impacto real en usuario |
+
+> RFC antes que ADR: si la decisión **no está tomada**, genera RFC. Al tomarse, convierte el RFC en ADR con referencia cruzada (`See: RFC-XXX`).
 
 ## 2. Gestión de Decisiones (ADR - Plantilla Nygard)
 
@@ -46,6 +67,8 @@ de Staff Software Engineer, siguiendo estas directivas:
 **¿Cuándo crear un ADR?**
 - ✅ SÍ: nueva dependencia externa, cambio de base de datos, nuevo patrón arquitectónico, decisión difícilmente reversible.
 - ❌ NO: typos, cambios de estilo/formato, tests unitarios sin impacto en API pública, experimentos WIP.
+
+> Si la decisión **aún no está tomada**, genera un RFC (§1.1) en lugar de un ADR.
 
 Si un cambio cumple el umbral, genera un archivo en `/docs/adr/ADR-XXX.md`.
 
@@ -76,6 +99,7 @@ siguiendo el estándar C4 (Nivel 2: Contenedores o Nivel 3: Componentes).
 - **Living Documentation:** Mantén un changelog técnico incremental. Documenta 
   los cambios en `/docs/changelog/YYYY-MM-DD-<titulo-de-la-tarea>.md` para 
   facilitar su búsqueda e identificación de un vistazo.
+- **Sin auto-atribución a IA:** Ningún documento persistido debe mencionar IA, Claude ni esta skill. Excepción única: el campo `author` con "(asistido por IA)" si el usuario eligió Opción A en §11.
 
 ## 5. Gestión de PRs y Commits (Flujo de Git)
 Como experto en control de versiones:
@@ -150,3 +174,21 @@ Todo cambio documentado debe incluir una sección **"Cómo probar" (Steps to Ver
   explicadas, términos internos, variables de entorno sin origen claro).
 - **Aclaración Automática:** Si detecta una brecha, añade una nota aclaratoria 
   o un enlace al contexto necesario para reducir la carga cognitiva del lector.
+
+## 11. Política de Autoría [REACTIVO — una vez por sesión]
+
+Antes de persistir el **primer** fichero de la sesión, pregunta:
+> *"¿Cómo quieres firmar los documentos?*
+> *A) `Autor: [nombre] (asistido por IA)` — trazabilidad completa*
+> *B) `Autor: [nombre]` — firma limpia*
+> *C) Sin campo de autoría"*
+
+Recuerda la elección durante toda la sesión sin volver a preguntar.
+Para cambiarla en cualquier momento, di: *"cambia la autoría"*.
+
+**Formato del campo autor:**
+- Docs con frontmatter YAML (ADR, RFC): campo `author:` dentro del bloque `---`
+- Docs sin frontmatter (Changelog, Runbook, Glosario): línea `**Autor:** X` inmediatamente tras el H1
+
+**Precedencia:** §6.1 tiene P2. Si el repo ya define una convención de autoría, esa convención
+prevalece sobre §11. Solo aplica §11 cuando el repo no define autoría propia.
